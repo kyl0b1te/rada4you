@@ -20,6 +20,15 @@ func New(key string) Client {
 	return Client{key}
 }
 
+// GetAllPeoples function for retireve the list of current deputies
+func (c *Client) GetAllPeoples() (*[]GetAllPeoplesResponse, error) {
+	res := new([]GetAllPeoplesResponse)
+	if err := c.sendRequest("people", res); err != nil {
+		return &[]GetAllPeoplesResponse{}, err
+	}
+	return res, nil
+}
+
 func (c *Client) sendRequest(path string, target interface{}) error {
 	url := c.getRequestURL(path)
 	res, err := http.Get(url)
