@@ -10,7 +10,6 @@ type GetAllPeoplesResponse struct {
 type GetPeopleByIdResponse struct {
 	ID                int `json:"id"`
 	LatestMember      `json:"latest_member"`
-	Offices           []string            `json:"-"`
 	PolicyComparisons []PolicyComparisons `json:"policy_comparisons"`
 	Rebellions        int                 `json:"rebellions"`
 	VotesAttended     int                 `json:"votes_attended"`
@@ -45,4 +44,8 @@ type Policy struct {
 
 type ErrorResponse struct {
 	Message string `json:"error"`
+}
+
+func (e *ErrorResponse) IsOccur() bool {
+	return e.Message != ""
 }

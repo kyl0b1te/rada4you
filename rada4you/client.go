@@ -20,19 +20,19 @@ func New(key string) Client {
 }
 
 // GetAllPeoples function for retrieve the list of current deputies
-func (c *Client) GetAllPeoples() (*[]GetAllPeoplesResponse, *ErrorResponse) {
+func (c *Client) GetAllPeoples() ([]GetAllPeoplesResponse, *ErrorResponse) {
 	res := new([]GetAllPeoplesResponse)
-	if fail := c.sendRequest("people", res); fail != nil {
-		return &[]GetAllPeoplesResponse{}, fail
+	if fail := c.sendRequest("people", res); fail.IsOccur() {
+		return nil, fail
 	}
-	return res, nil
+	return *res, nil
 }
 
 func (c *Client) GetPeopleById(id int) (*GetPeopleByIdResponse, *ErrorResponse) {
 	res := new(GetPeopleByIdResponse)
 	url := fmt.Sprintf("people/%d", id)
-	if fail := c.sendRequest(url, res); fail != nil {
-		return &GetPeopleByIdResponse{}, fail
+	if fail := c.sendRequest(url, res); fail.IsOccur() {
+		return nil, fail
 	}
 	return res, nil
 }
@@ -62,19 +62,10 @@ func (c *Client) getRequestURL(path string) string {
 }
 
 func (c *Client) parseResponse(target *interface{}, res []byte) *ErrorResponse {
+	fail := new(ErrorResponse)
 	// Try to parse target response
-	err := json.Unmarshal(res, target)
-	if err == nil {
-		return nil
-	}
-
+	json.Unmarshal(res, target)
 	// Try to parse error response
-	fail := ErrorResponse{}
-	err = json.Unmarshal(res, &fail)
-	if err != nil {
-		// Cannot parse API response
-		panic(err)
-	}
-
-	return &fail
+	json.Unmarshal(res, fail)
+	return fail
 }
