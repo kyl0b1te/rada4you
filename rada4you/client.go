@@ -20,12 +20,12 @@ func New(key string) Client {
 }
 
 // GetAllPeoples function for retrieve the list of current deputies
-func (c *Client) GetAllPeoples() ([]GetAllPeoplesResponse, *ErrorResponse) {
-	res := new([]GetAllPeoplesResponse)
+func (c *Client) GetAllPeoples() (*GetAllPeoplesResponse, *ErrorResponse) {
+	res := new([]Person)
 	if fail := c.sendRequest("people", res); fail.IsOccur() {
 		return nil, fail
 	}
-	return *res, nil
+	return &GetAllPeoplesResponse{Peoples: *res}, nil
 }
 
 func (c *Client) GetPeopleById(id int) (*GetPeopleByIdResponse, *ErrorResponse) {
@@ -37,12 +37,12 @@ func (c *Client) GetPeopleById(id int) (*GetPeopleByIdResponse, *ErrorResponse) 
 	return res, nil
 }
 
-func (c *Client) GetAllPolitics() ([]Policy, *ErrorResponse) {
+func (c *Client) GetAllPolicies() (*GetAllPolicies, *ErrorResponse) {
 	res := new([]Policy)
 	if fail := c.sendRequest("policies", res); fail.IsOccur() {
 		return nil, fail
 	}
-	return *res, nil
+	return &GetAllPolicies{Policies: *res}, nil
 }
 
 func (c *Client) sendRequest(path string, target interface{}) *ErrorResponse {

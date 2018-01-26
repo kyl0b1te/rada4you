@@ -1,45 +1,33 @@
 package rada4you
 
-// GetAllPeoplesResponse struct that represent general deputy information with API id
+// GetAllPeoplesResponse struct represent API /peoples response
 type GetAllPeoplesResponse struct {
-	ID           int `json:"id"`
-	LatestMember `json:"latest_member"`
+	Peoples []Person
 }
 
-// GetPeopleByIdResponse struct that represent deputy details by API id
+// GetPeopleByIdResponse struct represent API /peoples/X response
 type GetPeopleByIdResponse struct {
-	ID                int `json:"id"`
-	LatestMember      `json:"latest_member"`
+	Person
 	PolicyComparisons []PolicyComparisons `json:"policy_comparisons"`
 	Rebellions        int                 `json:"rebellions"`
 	VotesAttended     int                 `json:"votes_attended"`
 	VotesPossible     int                 `json:"votes_possible"`
 }
 
-// LatestMember struct that represent general deputy information
-type LatestMember struct {
-	ID         int    `json:"id"`
-	Electorate string `json:"electorate"`
-	House      string `json:"house"`
-	Name       struct {
-		First string `json:"first"`
-		Last  string `json:"last"`
-	} `json:"name"`
-	Party string `json:"party"`
+type GetAllPolicies struct {
+	Policies []Policy
 }
 
-type PolicyComparisons struct {
-	Agreement string `json:"agreement"`
-	Policy    `json:"policy"`
-	Voted     bool `json:"voted"`
-}
-
-// Policy struct that represent the policy information
-type Policy struct {
-	ID          int    `json:"id"`
-	Name        string `json:"name"`
-	Description string `json:"description"`
-	Provisional bool   `json:"provisional"`
+// GetPolicyByIdResponse struct represent /policies/X.json response
+type GetPolicyByIdResponse struct {
+	Policy
+	PeopleComparisons `json:"people_comparisons"`
+	PolicyDivisions   []struct {
+		Division `json:"division"`
+		Strong   bool   `json:"strong"`
+		Vote     string `json:"aye"`
+	} `json:"policy_divisions"`
+	Provisional bool `json:"provisional"`
 }
 
 type ErrorResponse struct {
