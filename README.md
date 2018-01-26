@@ -18,7 +18,9 @@ type GetAllPeoplesResponse struct {
 }
 ```
 
-### `Client.GetPeopleByID(id int)`
+---
+
+### `Client.GetPeopleByID(int)`
 
 **Description:** function for retrieve deputy detail by system database id.
 
@@ -34,6 +36,8 @@ type GetPeopleByIDResponse struct {
 }
 ```
 
+---
+
 ### `Client.GetAllPolicies()`
 
 **Description:** function for retrieve the list of all available policies.
@@ -46,7 +50,9 @@ type GetAllPoliciesResponse struct {
 }
 ```
 
-### `Client.GetPolicyByID(id int)`
+---
+
+### `Client.GetPolicyByID(int)`
 
 **Description:** function for retrieve target policy by system database id.
 
@@ -63,6 +69,8 @@ type GetPolicyByIDResponse struct {
 }
 ```
 
+---
+
 ### `Client.GetAllDivisions()`
 
 **Description:** function for retrieve the list of all available divisions.
@@ -73,7 +81,9 @@ type GetAllDivisionsResponse struct {
 }
 ```
 
-### `Client.GetDivisionByID(id int)`
+---
+
+### `Client.GetDivisionByID(int)`
 
 **Description:** function for retrieve target division by system database id.
 
