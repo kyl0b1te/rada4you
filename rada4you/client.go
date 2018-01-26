@@ -3,12 +3,11 @@ package rada4you
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
-
-	"github.com/pkg/errors"
 )
 
-const apiHost string = "https://rada4you.org/api/v1/"
+const apiHost = "https://rada4you.org/api/v1/"
 
 // Client struct that contain all API methods
 type Client struct {
@@ -20,26 +19,53 @@ func New(key string) Client {
 	return Client{key}
 }
 
-// GetAllPeoples function for retireve the list of current deputies
-func (c *Client) GetAllPeoples() (*[]GetAllPeoplesResponse, error) {
+// GetAllPeoples function for retrieve the list of current deputies
+func (c *Client) GetAllPeoples() (*[]GetAllPeoplesResponse, *ErrorResponse) {
 	res := new([]GetAllPeoplesResponse)
-	if err := c.sendRequest("people", res); err != nil {
-		return &[]GetAllPeoplesResponse{}, err
+	if fail := c.sendRequest("people", res); fail != nil {
+		return &[]GetAllPeoplesResponse{}, fail
 	}
 	return res, nil
 }
 
-func (c *Client) sendRequest(path string, target interface{}) error {
+func (c *Client) sendRequest(path string, target interface{}) *ErrorResponse {
 	url := c.getRequestURL(path)
 	res, err := http.Get(url)
 	if err != nil {
-		return errors.Wrap(err, "API request sending failed")
+		panic("API request sending failed")
 	}
 	defer res.Body.Close()
 
-	return json.NewDecoder(res.Body).Decode(target)
+	body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		panic("Response body reading failed")
+	}
+
+	if fail := c.parseResponse(&target, body); fail != nil {
+		return fail
+	}
+
+	return nil
 }
 
 func (c *Client) getRequestURL(path string) string {
 	return fmt.Sprintf("%s%s.json?key=%s", apiHost, path, c.APIKey)
+}
+
+func (c *Client) parseResponse(target *interface{}, res []byte) *ErrorResponse {
+	// Try to parse target response
+	err := json.Unmarshal(res, target)
+	if err == nil {
+		return nil
+	}
+
+	// Try to parse error response
+	fail := ErrorResponse{}
+	err = json.Unmarshal(res, &fail)
+	if err != nil {
+		// Cannot parse API response
+		panic(err)
+	}
+
+	return &fail
 }
