@@ -33,7 +33,25 @@ type Division struct {
 	Rebellions      int    `json:"rebellions"`
 }
 
-// Policy struct represent the policy information
+type Bill struct {
+	ID         int    `json:"id"`
+	OfficialID string `json:"official_id"`
+	Title      string `json:"title"`
+	URL        string `json:"url"`
+}
+
+type Member struct {
+	ID         int    `json:"id"`
+	Electorate string `json:"electorate"`
+	House      string `json:"house"`
+	FirstName  string `json:"first_name"`
+	LastName   string `json:"last_name"`
+	Party      string `json:"party"`
+	Person     struct {
+		ID int `json:"id"`
+	} `json:"person"`
+}
+
 type Policy struct {
 	ID          int    `json:"id"`
 	Name        string `json:"name"`

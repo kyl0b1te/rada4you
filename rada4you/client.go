@@ -60,6 +60,15 @@ func (c *Client) GetAllDivisions() (*GetAllDivisionsResponse, *ErrorResponse) {
 	return &GetAllDivisionsResponse{Divisions: *res}, nil
 }
 
+func (c *Client) GetDivisionByID(id int) (*GetDivisionByIdResponse, *ErrorResponse) {
+	res := new(GetDivisionByIdResponse)
+	url := fmt.Sprintf("divisions/%d", id)
+	if fail := c.sendRequest(url, res); fail.IsOccur() {
+		return nil, fail
+	}
+	return res, nil
+}
+
 func (c *Client) sendRequest(path string, target interface{}) *ErrorResponse {
 	url := c.getRequestURL(path)
 	res, err := http.Get(url)

@@ -98,3 +98,19 @@ func TestClient_GetPolicyByID(t *testing.T) {
 	assert.NotNil(t, res)
 	assert.NotZero(t, res.ID)
 }
+
+func TestClient_GetDivisionByID(t *testing.T) {
+	// Try invalid ID
+	_, err := CLI.GetDivisionByID(0)
+	assert.NotNil(t, err)
+	assert.Equal(t, "Not Found", err.Message)
+
+	// Get policy details by API id
+	all, _ := CLI.GetAllDivisions()
+	divID := all.Divisions[rand.Intn(len(all.Divisions))].ID
+	res, err := CLI.GetDivisionByID(divID)
+
+	assert.Nil(t, err)
+	assert.NotNil(t, res)
+	assert.NotZero(t, res.ID)
+}
