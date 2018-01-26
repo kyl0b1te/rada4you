@@ -15,8 +15,8 @@ type GetAllDivisionsResponse struct {
 	Divisions []Division
 }
 
-// GetPeopleByIdResponse struct represent API /peoples/X response
-type GetPeopleByIdResponse struct {
+// GetPeopleByIDResponse struct represent API /peoples/X response
+type GetPeopleByIDResponse struct {
 	Person
 	PolicyComparisons []PolicyComparisons `json:"policy_comparisons"`
 	Rebellions        int                 `json:"rebellions"`
@@ -24,8 +24,8 @@ type GetPeopleByIdResponse struct {
 	VotesPossible     int                 `json:"votes_possible"`
 }
 
-// GetPolicyByIdResponse struct represent /policies/X.json response
-type GetPolicyByIdResponse struct {
+// GetPolicyByIDResponse struct represent /policies/X.json response
+type GetPolicyByIDResponse struct {
 	Policy
 	PeopleComparisons `json:"people_comparisons"`
 	PolicyDivisions   []struct {
@@ -36,7 +36,7 @@ type GetPolicyByIdResponse struct {
 	Provisional bool `json:"provisional"`
 }
 
-type GetDivisionByIdResponse struct {
+type GetDivisionByIDResponse struct {
 	Division
 	Bills           []Bill `json:"bills"`
 	PolicyDivisions []struct {

@@ -86,7 +86,7 @@ func TestClient_GetAllDivisions(t *testing.T) {
 }
 
 func TestClient_GetPeopleByID(t *testing.T) {
-	mock := new(GetPeopleByIdResponse)
+	mock := new(GetPeopleByIDResponse)
 	setResponseMock(CLI.getRequestURL("people/0"), "ErrorResponseMock", mock)
 	defer unsetResponseMock()
 
@@ -107,7 +107,7 @@ func TestClient_GetPeopleByID(t *testing.T) {
 }
 
 func TestClient_GetPolicyByID(t *testing.T) {
-	mock := new(GetPolicyByIdResponse)
+	mock := new(GetPolicyByIDResponse)
 	setResponseMock(CLI.getRequestURL("policies/0"), "ErrorResponseMock", mock)
 	defer unsetResponseMock()
 
@@ -128,7 +128,7 @@ func TestClient_GetPolicyByID(t *testing.T) {
 }
 
 func TestClient_GetDivisionByID(t *testing.T) {
-	mock := new(GetDivisionByIdResponse)
+	mock := new(GetDivisionByIDResponse)
 	setResponseMock(CLI.getRequestURL("divisions/0"), "ErrorResponseMock", mock)
 	defer unsetResponseMock()
 
