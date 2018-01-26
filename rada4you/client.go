@@ -37,6 +37,14 @@ func (c *Client) GetPeopleById(id int) (*GetPeopleByIdResponse, *ErrorResponse) 
 	return res, nil
 }
 
+func (c *Client) GetAllPolitics() ([]Policy, *ErrorResponse) {
+	res := new([]Policy)
+	if fail := c.sendRequest("policies", res); fail.IsOccur() {
+		return nil, fail
+	}
+	return *res, nil
+}
+
 func (c *Client) sendRequest(path string, target interface{}) *ErrorResponse {
 	url := c.getRequestURL(path)
 	res, err := http.Get(url)

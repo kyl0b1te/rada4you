@@ -1,6 +1,7 @@
 package rada4you
 
 import (
+	"math/rand"
 	"os"
 	"testing"
 
@@ -27,6 +28,18 @@ func TestInvalidApiKey(t *testing.T) {
 	}
 }
 
+func TestClient_GetAllPeoples(t *testing.T) {
+	// Try get all peoples
+	res, err := CLI.GetAllPeoples()
+	assert.Nil(t, err)
+	assert.NotNil(t, res)
+	assert.True(t, len(res) > 0)
+
+	for _, dep := range res {
+		assert.NotZero(t, dep.ID)
+	}
+}
+
 func TestClient_GetPeopleById(t *testing.T) {
 	// Try invalid ID
 	_, err := CLI.GetPeopleById(0)
@@ -41,14 +54,17 @@ func TestClient_GetPeopleById(t *testing.T) {
 	assert.NotZero(t, res.ID)
 }
 
-func TestClient_GetAllPeoples(t *testing.T) {
-	// Try get all peoples
-	res, err := CLI.GetAllPeoples()
+func TestClient_GetAllPolitics(t *testing.T) {
+	// Try get all politics
+	res, err := CLI.GetAllPolitics()
 	assert.Nil(t, err)
 	assert.NotNil(t, res)
 	assert.True(t, len(res) > 0)
 
-	for _, dep := range res {
-		assert.NotZero(t, dep.ID)
+	if len(res) > 0 {
+		pol := res[rand.Intn(len(res))]
+		assert.NotZero(t, pol.ID)
+		assert.NotZero(t, pol.Description)
+		assert.NotZero(t, pol.Name)
 	}
 }
