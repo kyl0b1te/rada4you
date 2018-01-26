@@ -4,6 +4,12 @@ It's a GO API client for the [API](https://rada4you.org/help/data).
 
 Currently client is working with last API version, `v1`.
 
+## TODO
+
+- [] complete the tests for "get all" methods
+- [] add tests for private methods
+- [] add docker configuration files
+
 ## Available methods
 
 ### `Client.GetAllPeoples()`
@@ -103,3 +109,7 @@ type GetDivisionByIDResponse struct {
 	}
 }
 ```
+
+Any contributions are welcome.
+
+Feel free to create a new issues and PR's
