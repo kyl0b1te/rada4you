@@ -40,15 +40,15 @@ func TestClient_GetAllPeoples(t *testing.T) {
 	}
 }
 
-func TestClient_GetPeopleById(t *testing.T) {
+func TestClient_GetPeopleByID(t *testing.T) {
 	// Try invalid ID
-	_, err := CLI.GetPeopleById(0)
+	_, err := CLI.GetPeopleByID(0)
 	assert.NotNil(t, err)
 	assert.Equal(t, "Not Found", err.Message)
 
 	// Get deputy details by API id
 	all, _ := CLI.GetAllPeoples()
-	res, err := CLI.GetPeopleById(all.Peoples[0].ID)
+	res, err := CLI.GetPeopleByID(all.Peoples[0].ID)
 	assert.Nil(t, err)
 	assert.NotNil(t, res)
 	assert.NotZero(t, res.ID)
@@ -67,4 +67,20 @@ func TestClient_GetAllPolicies(t *testing.T) {
 		assert.NotZero(t, pol.Description)
 		assert.NotZero(t, pol.Name)
 	}
+}
+
+func TestClient_GetPolicyByID(t *testing.T) {
+	// Try invalid ID
+	_, err := CLI.GetPolicyByID(0)
+	assert.NotNil(t, err)
+	assert.Equal(t, "Not Found", err.Message)
+
+	// Get policy details by API id
+	all, _ := CLI.GetAllPolicies()
+	polID := all.Policies[rand.Intn(len(all.Policies))].ID
+	res, err := CLI.GetPolicyByID(polID)
+
+	assert.Nil(t, err)
+	assert.NotNil(t, res)
+	assert.NotZero(t, res.ID)
 }

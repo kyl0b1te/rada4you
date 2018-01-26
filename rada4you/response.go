@@ -14,6 +14,7 @@ type GetPeopleByIdResponse struct {
 	VotesPossible     int                 `json:"votes_possible"`
 }
 
+// GetAllPolicies struct represent API /policies response
 type GetAllPolicies struct {
 	Policies []Policy
 }
@@ -30,6 +31,7 @@ type GetPolicyByIdResponse struct {
 	Provisional bool `json:"provisional"`
 }
 
+// ErrorResponse struct represent error API response
 type ErrorResponse struct {
 	Message string `json:"error"`
 }

@@ -14,12 +14,10 @@ type Client struct {
 	APIKey string
 }
 
-// New function for create a new instance of Rada4You client
 func New(key string) Client {
 	return Client{key}
 }
 
-// GetAllPeoples function for retrieve the list of current deputies
 func (c *Client) GetAllPeoples() (*GetAllPeoplesResponse, *ErrorResponse) {
 	res := new([]Person)
 	if fail := c.sendRequest("people", res); fail.IsOccur() {
@@ -28,7 +26,7 @@ func (c *Client) GetAllPeoples() (*GetAllPeoplesResponse, *ErrorResponse) {
 	return &GetAllPeoplesResponse{Peoples: *res}, nil
 }
 
-func (c *Client) GetPeopleById(id int) (*GetPeopleByIdResponse, *ErrorResponse) {
+func (c *Client) GetPeopleByID(id int) (*GetPeopleByIdResponse, *ErrorResponse) {
 	res := new(GetPeopleByIdResponse)
 	url := fmt.Sprintf("people/%d", id)
 	if fail := c.sendRequest(url, res); fail.IsOccur() {
@@ -43,6 +41,15 @@ func (c *Client) GetAllPolicies() (*GetAllPolicies, *ErrorResponse) {
 		return nil, fail
 	}
 	return &GetAllPolicies{Policies: *res}, nil
+}
+
+func (c *Client) GetPolicyByID(id int) (*GetPolicyByIdResponse, *ErrorResponse) {
+	res := new(GetPolicyByIdResponse)
+	url := fmt.Sprintf("policies/%d", id)
+	if fail := c.sendRequest(url, res); fail.IsOccur() {
+		return nil, fail
+	}
+	return res, nil
 }
 
 func (c *Client) sendRequest(path string, target interface{}) *ErrorResponse {
