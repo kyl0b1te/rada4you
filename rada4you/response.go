@@ -17,3 +17,7 @@ type LatestMember struct {
 	} `json:"name"`
 	Party string `json:"party"`
 }
+
+type ErrorResponse struct {
+	Message string `json:"error"`
+}
