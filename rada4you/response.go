@@ -5,6 +5,16 @@ type GetAllPeoplesResponse struct {
 	Peoples []Person
 }
 
+// GetAllPoliciesResponse struct represent API /policies response
+type GetAllPoliciesResponse struct {
+	Policies []Policy
+}
+
+// GetAllDivisionsResponse struct represent API /divisions response
+type GetAllDivisionsResponse struct {
+	Divisions []Division
+}
+
 // GetPeopleByIdResponse struct represent API /peoples/X response
 type GetPeopleByIdResponse struct {
 	Person
@@ -12,11 +22,6 @@ type GetPeopleByIdResponse struct {
 	Rebellions        int                 `json:"rebellions"`
 	VotesAttended     int                 `json:"votes_attended"`
 	VotesPossible     int                 `json:"votes_possible"`
-}
-
-// GetAllPolicies struct represent API /policies response
-type GetAllPolicies struct {
-	Policies []Policy
 }
 
 // GetPolicyByIdResponse struct represent /policies/X.json response
