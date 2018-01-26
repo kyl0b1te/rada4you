@@ -8,9 +8,11 @@ import (
 )
 
 var APIKey string
+var CLI Client
 
 func init() {
 	APIKey = os.Getenv("API_KEY")
+	CLI = New(APIKey)
 }
 
 func TestNew(t *testing.T) {
@@ -25,11 +27,28 @@ func TestInvalidApiKey(t *testing.T) {
 	}
 }
 
-func TestClient_GetAllPeoples(t *testing.T) {
-	cli := New(APIKey)
-	res, err := cli.GetAllPeoples()
+func TestClient_GetPeopleById(t *testing.T) {
+	// Try invalid ID
+	_, err := CLI.GetPeopleById(0)
+	assert.NotNil(t, err)
+	assert.Equal(t, "Not Found", err.Message)
 
+	// Get deputy details by API id
+	all, _ := CLI.GetAllPeoples()
+	res, err := CLI.GetPeopleById(all[0].ID)
 	assert.Nil(t, err)
 	assert.NotNil(t, res)
-	assert.True(t, len(*res) > 0)
+	assert.NotZero(t, res.ID)
+}
+
+func TestClient_GetAllPeoples(t *testing.T) {
+	// Try get all peoples
+	res, err := CLI.GetAllPeoples()
+	assert.Nil(t, err)
+	assert.NotNil(t, res)
+	assert.True(t, len(res) > 0)
+
+	for _, dep := range res {
+		assert.NotZero(t, dep.ID)
+	}
 }
