@@ -1,5 +1,7 @@
 # rada4you
 
+[![Build Status](https://travis-ci.org/zhikiri/rada4you.svg?branch=master)](https://travis-ci.org/zhikiri/rada4you)
+
 It's a GO API client for the [API](https://rada4you.org/help/data).
 
 Currently client is working with last API version, `v1`.
