@@ -36,6 +36,21 @@ type GetPolicyByIdResponse struct {
 	Provisional bool `json:"provisional"`
 }
 
+type GetDivisionByIdResponse struct {
+	Division
+	Bills           []Bill `json:"bills"`
+	PolicyDivisions []struct {
+		Policy Policy `json:"policy"`
+		Strong bool   `json:"strong"`
+		Vote   string `json:"vote"`
+	} `json:"policy_divisions"`
+	Summary string `json:"summary"`
+	Votes   []struct {
+		Member `json:"member"`
+		Vote   string `json:"vote"`
+	}
+}
+
 // ErrorResponse struct represent error API response
 type ErrorResponse struct {
 	Message string `json:"error"`
