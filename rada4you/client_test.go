@@ -40,20 +40,6 @@ func TestClient_GetAllPeoples(t *testing.T) {
 	}
 }
 
-func TestClient_GetPeopleByID(t *testing.T) {
-	// Try invalid ID
-	_, err := CLI.GetPeopleByID(0)
-	assert.NotNil(t, err)
-	assert.Equal(t, "Not Found", err.Message)
-
-	// Get deputy details by API id
-	all, _ := CLI.GetAllPeoples()
-	res, err := CLI.GetPeopleByID(all.Peoples[0].ID)
-	assert.Nil(t, err)
-	assert.NotNil(t, res)
-	assert.NotZero(t, res.ID)
-}
-
 func TestClient_GetAllPolicies(t *testing.T) {
 	// Try get all politics
 	res, err := CLI.GetAllPolicies()
@@ -67,6 +53,34 @@ func TestClient_GetAllPolicies(t *testing.T) {
 		assert.NotZero(t, pol.Description)
 		assert.NotZero(t, pol.Name)
 	}
+}
+
+func TestClient_GetAllDivisions(t *testing.T) {
+	// Try get all divisions
+	res, err := CLI.GetAllDivisions()
+	assert.Nil(t, err)
+	assert.NotNil(t, res)
+	assert.True(t, len(res.Divisions) > 0)
+
+	if len(res.Divisions) > 0 {
+		pol := res.Divisions[rand.Intn(len(res.Divisions))]
+		assert.NotZero(t, pol.ID)
+		assert.NotZero(t, pol.Name)
+	}
+}
+
+func TestClient_GetPeopleByID(t *testing.T) {
+	// Try invalid ID
+	_, err := CLI.GetPeopleByID(0)
+	assert.NotNil(t, err)
+	assert.Equal(t, "Not Found", err.Message)
+
+	// Get deputy details by API id
+	all, _ := CLI.GetAllPeoples()
+	res, err := CLI.GetPeopleByID(all.Peoples[0].ID)
+	assert.Nil(t, err)
+	assert.NotNil(t, res)
+	assert.NotZero(t, res.ID)
 }
 
 func TestClient_GetPolicyByID(t *testing.T) {

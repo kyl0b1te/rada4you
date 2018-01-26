@@ -35,12 +35,12 @@ func (c *Client) GetPeopleByID(id int) (*GetPeopleByIdResponse, *ErrorResponse) 
 	return res, nil
 }
 
-func (c *Client) GetAllPolicies() (*GetAllPolicies, *ErrorResponse) {
+func (c *Client) GetAllPolicies() (*GetAllPoliciesResponse, *ErrorResponse) {
 	res := new([]Policy)
 	if fail := c.sendRequest("policies", res); fail.IsOccur() {
 		return nil, fail
 	}
-	return &GetAllPolicies{Policies: *res}, nil
+	return &GetAllPoliciesResponse{Policies: *res}, nil
 }
 
 func (c *Client) GetPolicyByID(id int) (*GetPolicyByIdResponse, *ErrorResponse) {
@@ -50,6 +50,14 @@ func (c *Client) GetPolicyByID(id int) (*GetPolicyByIdResponse, *ErrorResponse) 
 		return nil, fail
 	}
 	return res, nil
+}
+
+func (c *Client) GetAllDivisions() (*GetAllDivisionsResponse, *ErrorResponse) {
+	res := new([]Division)
+	if fail := c.sendRequest("divisions", res); fail.IsOccur() {
+		return nil, fail
+	}
+	return &GetAllDivisionsResponse{Divisions: *res}, nil
 }
 
 func (c *Client) sendRequest(path string, target interface{}) *ErrorResponse {
