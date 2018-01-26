@@ -28,6 +28,15 @@ func (c *Client) GetAllPeoples() (*[]GetAllPeoplesResponse, *ErrorResponse) {
 	return res, nil
 }
 
+func (c *Client) GetPeopleById(id int) (*GetPeopleByIdResponse, *ErrorResponse) {
+	res := new(GetPeopleByIdResponse)
+	url := fmt.Sprintf("people/%d", id)
+	if fail := c.sendRequest(url, res); fail != nil {
+		return &GetPeopleByIdResponse{}, fail
+	}
+	return res, nil
+}
+
 func (c *Client) sendRequest(path string, target interface{}) *ErrorResponse {
 	url := c.getRequestURL(path)
 	res, err := http.Get(url)
