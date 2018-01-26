@@ -26,8 +26,8 @@ func (c *Client) GetAllPeoples() (*GetAllPeoplesResponse, *ErrorResponse) {
 	return &GetAllPeoplesResponse{Peoples: *res}, nil
 }
 
-func (c *Client) GetPeopleByID(id int) (*GetPeopleByIdResponse, *ErrorResponse) {
-	res := new(GetPeopleByIdResponse)
+func (c *Client) GetPeopleByID(id int) (*GetPeopleByIDResponse, *ErrorResponse) {
+	res := new(GetPeopleByIDResponse)
 	url := fmt.Sprintf("people/%d", id)
 	if fail := c.sendRequest(url, res); fail.IsOccur() {
 		return nil, fail
@@ -43,8 +43,8 @@ func (c *Client) GetAllPolicies() (*GetAllPoliciesResponse, *ErrorResponse) {
 	return &GetAllPoliciesResponse{Policies: *res}, nil
 }
 
-func (c *Client) GetPolicyByID(id int) (*GetPolicyByIdResponse, *ErrorResponse) {
-	res := new(GetPolicyByIdResponse)
+func (c *Client) GetPolicyByID(id int) (*GetPolicyByIDResponse, *ErrorResponse) {
+	res := new(GetPolicyByIDResponse)
 	url := fmt.Sprintf("policies/%d", id)
 	if fail := c.sendRequest(url, res); fail.IsOccur() {
 		return nil, fail
@@ -60,8 +60,8 @@ func (c *Client) GetAllDivisions() (*GetAllDivisionsResponse, *ErrorResponse) {
 	return &GetAllDivisionsResponse{Divisions: *res}, nil
 }
 
-func (c *Client) GetDivisionByID(id int) (*GetDivisionByIdResponse, *ErrorResponse) {
-	res := new(GetDivisionByIdResponse)
+func (c *Client) GetDivisionByID(id int) (*GetDivisionByIDResponse, *ErrorResponse) {
+	res := new(GetDivisionByIDResponse)
 	url := fmt.Sprintf("divisions/%d", id)
 	if fail := c.sendRequest(url, res); fail.IsOccur() {
 		return nil, fail
