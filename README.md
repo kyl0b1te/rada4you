@@ -6,9 +6,11 @@ Currently client is working with last API version, `v1`.
 
 ## TODO
 
-- [] complete the tests for "get all" methods
-- [] add tests for private methods
-- [] add docker configuration files
+Here is the list of next steps:
+
+- [ ] complete the tests for "get all" methods
+- [ ] add tests for private methods
+- [ ] add docker configuration files
 
 ## Available methods
 
