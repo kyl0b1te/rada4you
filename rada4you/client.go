@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	nurl "net/url"
 )
 
 const apiHost = "https://rada4you.org/api/v1/"
@@ -20,7 +21,7 @@ func New(key string) Client {
 
 func (c *Client) GetAllPeoples() (*GetAllPeoplesResponse, *ErrorResponse) {
 	res := new([]Person)
-	if fail := c.sendRequest("people", res); fail.IsOccur() {
+	if fail := c.sendRequest("people", res, make(map[string]string)); fail.IsOccur() {
 		return nil, fail
 	}
 	return &GetAllPeoplesResponse{Peoples: *res}, nil
@@ -29,7 +30,7 @@ func (c *Client) GetAllPeoples() (*GetAllPeoplesResponse, *ErrorResponse) {
 func (c *Client) GetPeopleByID(id int) (*GetPeopleByIDResponse, *ErrorResponse) {
 	res := new(GetPeopleByIDResponse)
 	url := fmt.Sprintf("people/%d", id)
-	if fail := c.sendRequest(url, res); fail.IsOccur() {
+	if fail := c.sendRequest(url, res, make(map[string]string)); fail.IsOccur() {
 		return nil, fail
 	}
 	return res, nil
@@ -37,7 +38,7 @@ func (c *Client) GetPeopleByID(id int) (*GetPeopleByIDResponse, *ErrorResponse) 
 
 func (c *Client) GetAllPolicies() (*GetAllPoliciesResponse, *ErrorResponse) {
 	res := new([]Policy)
-	if fail := c.sendRequest("policies", res); fail.IsOccur() {
+	if fail := c.sendRequest("policies", res, make(map[string]string)); fail.IsOccur() {
 		return nil, fail
 	}
 	return &GetAllPoliciesResponse{Policies: *res}, nil
@@ -46,15 +47,15 @@ func (c *Client) GetAllPolicies() (*GetAllPoliciesResponse, *ErrorResponse) {
 func (c *Client) GetPolicyByID(id int) (*GetPolicyByIDResponse, *ErrorResponse) {
 	res := new(GetPolicyByIDResponse)
 	url := fmt.Sprintf("policies/%d", id)
-	if fail := c.sendRequest(url, res); fail.IsOccur() {
+	if fail := c.sendRequest(url, res, make(map[string]string)); fail.IsOccur() {
 		return nil, fail
 	}
 	return res, nil
 }
 
-func (c *Client) GetAllDivisions() (*GetAllDivisionsResponse, *ErrorResponse) {
+func (c *Client) GetAllDivisions(r GetAllDivisionsRequest) (*GetAllDivisionsResponse, *ErrorResponse) {
 	res := new([]Division)
-	if fail := c.sendRequest("divisions", res); fail.IsOccur() {
+	if fail := c.sendRequest("divisions", res, r.Values()); fail.IsOccur() {
 		return nil, fail
 	}
 	return &GetAllDivisionsResponse{Divisions: *res}, nil
@@ -63,14 +64,22 @@ func (c *Client) GetAllDivisions() (*GetAllDivisionsResponse, *ErrorResponse) {
 func (c *Client) GetDivisionByID(id int) (*GetDivisionByIDResponse, *ErrorResponse) {
 	res := new(GetDivisionByIDResponse)
 	url := fmt.Sprintf("divisions/%d", id)
-	if fail := c.sendRequest(url, res); fail.IsOccur() {
+	if fail := c.sendRequest(url, res, make(map[string]string)); fail.IsOccur() {
 		return nil, fail
 	}
 	return res, nil
 }
 
-func (c *Client) sendRequest(path string, target interface{}) *ErrorResponse {
-	url := c.getRequestURL(path)
+func (c *Client) getQueryString(params map[string]string) string {
+	values := nurl.Values{}
+	for key, val := range params {
+		values.Add(key, val)
+	}
+	return values.Encode()
+}
+
+func (c *Client) sendRequest(path string, target interface{}, params map[string]string) *ErrorResponse {
+	url := c.getRequestURL(path, params)
 	res, err := http.Get(url)
 	if err != nil {
 		panic("API request sending failed")
@@ -89,8 +98,9 @@ func (c *Client) sendRequest(path string, target interface{}) *ErrorResponse {
 	return nil
 }
 
-func (c *Client) getRequestURL(path string) string {
-	return fmt.Sprintf("%s%s.json?key=%s", apiHost, path, c.APIKey)
+func (c *Client) getRequestURL(path string, params map[string]string) string {
+	params["key"] = c.APIKey
+	return fmt.Sprintf("%s%s.json?%s", apiHost, path, c.getQueryString(params))
 }
 
 func (c *Client) parseResponse(target *interface{}, res []byte) *ErrorResponse {
