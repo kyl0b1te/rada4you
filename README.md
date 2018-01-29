@@ -10,8 +10,8 @@ Currently client is working with last API version, `v1`.
 
 Here is the list of next steps:
 
-- [ ] complete the tests for "get all" methods
-- [ ] add tests for private methods
+- [X] complete the tests for "get all" methods
+- [X] add tests for private methods
 - [ ] add docker configuration files
 
 ## Available methods
@@ -39,10 +39,10 @@ Response format:
 ```go
 type GetPeopleByIDResponse struct {
 	Person
-	PolicyComparisons []PolicyComparisons `json:"policy_comparisons"`
-	Rebellions        int                 `json:"rebellions"`
-	VotesAttended     int                 `json:"votes_attended"`
-	VotesPossible     int                 `json:"votes_possible"`
+	PolicyComparisons []PolicyComparisons
+	Rebellions        int
+	VotesAttended     int
+	VotesPossible     int
 }
 ```
 
@@ -69,19 +69,19 @@ type GetAllPoliciesResponse struct {
 ```go
 type GetPolicyByIDResponse struct {
 	Policy
-	PeopleComparisons `json:"people_comparisons"`
+	PeopleComparisons
 	PolicyDivisions   []struct {
-		Division `json:"division"`
-		Strong   bool   `json:"strong"`
-		Vote     string `json:"aye"`
-	} `json:"policy_divisions"`
-	Provisional bool `json:"provisional"`
+		Division
+		Strong   bool
+		Vote     string
+	}
+	Provisional bool
 }
 ```
 
 ---
 
-### `Client.GetAllDivisions()`
+### `Client.GetAllDivisions(GetAllDivisionsRequest)`
 
 **Description:** function for retrieve the list of all available divisions.
 
@@ -100,16 +100,16 @@ type GetAllDivisionsResponse struct {
 ```go
 type GetDivisionByIDResponse struct {
 	Division
-	Bills           []Bill `json:"bills"`
+	Bills           []Bill
 	PolicyDivisions []struct {
-		Policy Policy `json:"policy"`
-		Strong bool   `json:"strong"`
-		Vote   string `json:"vote"`
-	} `json:"policy_divisions"`
-	Summary string `json:"summary"`
+		Policy Policy
+		Strong bool
+		Vote   string
+	}
+	Summary string
 	Votes   []struct {
-		Member `json:"member"`
-		Vote   string `json:"vote"`
+		Member
+		Vote  string
 	}
 }
 ```
