@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"math/rand"
+	"net/url"
 	"os"
 	"testing"
 
@@ -22,6 +23,41 @@ func init() {
 
 func TestNew(t *testing.T) {
 	assert.Equal(t, APIKey, New(APIKey).APIKey)
+}
+
+func TestGetRequestURL(t *testing.T) {
+	// Test without query string parameters
+	generated := CLI.getRequestURL("entity", make(map[string]string))
+	calculated := fmt.Sprintf("%sentity.json?key=%s", apiHost, CLI.APIKey)
+	assert.Equal(t, calculated, generated)
+
+	// Test with query string parameters
+	queryParameters := make(map[string]string)
+	queryParameters["a"] = "1"
+	queryParameters["b"] = "2"
+	queryParameters["c"] = "3"
+
+	queryString := url.Values{}
+	queryString.Add("key", CLI.APIKey)
+	for k, v := range queryParameters {
+		queryString.Add(k, v)
+	}
+	generated = CLI.getRequestURL("entity", queryParameters)
+	calculated = fmt.Sprintf("%sentity.json?%s", apiHost, queryString.Encode())
+	assert.Equal(t, calculated, generated)
+}
+
+func TestGetQueryString(t *testing.T) {
+	queryParameters := make(map[string]string)
+	queryParameters["a"] = "1"
+	queryParameters["b"] = "2"
+	queryParameters["c"] = "3"
+
+	queryString := url.Values{}
+	for k, v := range queryParameters {
+		queryString.Add(k, v)
+	}
+	assert.Equal(t, queryString.Encode(), CLI.getQueryString(queryParameters))
 }
 
 func TestInvalidApiKey(t *testing.T) {
@@ -76,13 +112,7 @@ func TestClient_GetAllDivisions(t *testing.T) {
 	res, err := CLI.GetAllDivisions(GetAllDivisionsRequest{})
 	assert.Nil(t, err)
 	assert.NotNil(t, res)
-	assert.True(t, len(res.Divisions) > 0)
-
-	if len(res.Divisions) > 0 {
-		pol := res.Divisions[rand.Intn(len(res.Divisions))]
-		assert.NotZero(t, pol.ID)
-		assert.NotZero(t, pol.Name)
-	}
+	assert.Exactly(t, mock, res)
 }
 
 func TestClient_GetPeopleByID(t *testing.T) {
