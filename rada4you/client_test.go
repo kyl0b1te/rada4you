@@ -34,7 +34,7 @@ func TestInvalidApiKey(t *testing.T) {
 
 func TestClient_GetAllPeoples(t *testing.T) {
 	mock := new(GetAllPeoplesResponse)
-	setResponseMock(CLI.getRequestURL("people"), "GetAllPeoplesResponseMock", mock)
+	setResponseMock(CLI.getRequestURL("people", make(map[string]string)), "GetAllPeoplesResponseMock", mock)
 	defer unsetResponseMock()
 
 	// Try get all peoples
@@ -50,7 +50,7 @@ func TestClient_GetAllPeoples(t *testing.T) {
 
 func TestClient_GetAllPolicies(t *testing.T) {
 	mock := new(GetAllPoliciesResponse)
-	setResponseMock(CLI.getRequestURL("policies"), "GetAllPoliciesResponseMock", mock)
+	setResponseMock(CLI.getRequestURL("policies", make(map[string]string)), "GetAllPoliciesResponseMock", mock)
 	defer unsetResponseMock()
 
 	// Try get all politics
@@ -69,11 +69,11 @@ func TestClient_GetAllPolicies(t *testing.T) {
 
 func TestClient_GetAllDivisions(t *testing.T) {
 	mock := new(GetAllDivisionsResponse)
-	setResponseMock(CLI.getRequestURL("divisions"), "GetAllDivisionsResponseMock", mock)
+	setResponseMock(CLI.getRequestURL("divisions", make(map[string]string)), "GetAllDivisionsResponseMock", mock)
 	defer unsetResponseMock()
 
 	// Try get all divisions
-	res, err := CLI.GetAllDivisions()
+	res, err := CLI.GetAllDivisions(GetAllDivisionsRequest{})
 	assert.Nil(t, err)
 	assert.NotNil(t, res)
 	assert.True(t, len(res.Divisions) > 0)
@@ -87,7 +87,7 @@ func TestClient_GetAllDivisions(t *testing.T) {
 
 func TestClient_GetPeopleByID(t *testing.T) {
 	mock := new(GetPeopleByIDResponse)
-	setResponseMock(CLI.getRequestURL("people/0"), "ErrorResponseMock", mock)
+	setResponseMock(CLI.getRequestURL("people/0", make(map[string]string)), "ErrorResponseMock", mock)
 	defer unsetResponseMock()
 
 	// Try invalid ID
@@ -95,7 +95,7 @@ func TestClient_GetPeopleByID(t *testing.T) {
 	assert.NotNil(t, err)
 	assert.Equal(t, "Not Found", err.Message)
 
-	setResponseMock(CLI.getRequestURL("people/386"), "GetPeopleByIdResponseMock", mock)
+	setResponseMock(CLI.getRequestURL("people/386", make(map[string]string)), "GetPeopleByIdResponseMock", mock)
 	defer unsetResponseMock()
 
 	// Get deputy details by API id
@@ -108,7 +108,7 @@ func TestClient_GetPeopleByID(t *testing.T) {
 
 func TestClient_GetPolicyByID(t *testing.T) {
 	mock := new(GetPolicyByIDResponse)
-	setResponseMock(CLI.getRequestURL("policies/0"), "ErrorResponseMock", mock)
+	setResponseMock(CLI.getRequestURL("policies/0", make(map[string]string)), "ErrorResponseMock", mock)
 	defer unsetResponseMock()
 
 	// Try invalid ID
@@ -116,7 +116,7 @@ func TestClient_GetPolicyByID(t *testing.T) {
 	assert.NotNil(t, err)
 	assert.Equal(t, "Not Found", err.Message)
 
-	setResponseMock(CLI.getRequestURL("policies/1"), "GetPeopleByIdResponseMock", mock)
+	setResponseMock(CLI.getRequestURL("policies/1", make(map[string]string)), "GetPeopleByIdResponseMock", mock)
 	defer unsetResponseMock()
 
 	// Get policy details by API id
@@ -129,7 +129,7 @@ func TestClient_GetPolicyByID(t *testing.T) {
 
 func TestClient_GetDivisionByID(t *testing.T) {
 	mock := new(GetDivisionByIDResponse)
-	setResponseMock(CLI.getRequestURL("divisions/0"), "ErrorResponseMock", mock)
+	setResponseMock(CLI.getRequestURL("divisions/0", make(map[string]string)), "ErrorResponseMock", mock)
 	defer unsetResponseMock()
 
 	// Try invalid ID
@@ -137,7 +137,7 @@ func TestClient_GetDivisionByID(t *testing.T) {
 	assert.NotNil(t, err)
 	assert.Equal(t, "Not Found", err.Message)
 
-	setResponseMock(CLI.getRequestURL("divisions/4896"), "GetPeopleByIdResponseMock", mock)
+	setResponseMock(CLI.getRequestURL("divisions/4896", make(map[string]string)), "GetPeopleByIdResponseMock", mock)
 	defer unsetResponseMock()
 
 	// Get policy details by API id
