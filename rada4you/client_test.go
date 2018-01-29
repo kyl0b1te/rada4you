@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"math/rand"
+	"net/url"
 	"os"
 	"testing"
 
@@ -24,6 +24,41 @@ func TestNew(t *testing.T) {
 	assert.Equal(t, APIKey, New(APIKey).APIKey)
 }
 
+func TestGetRequestURL(t *testing.T) {
+	// Test without query string parameters
+	generated := CLI.getRequestURL("entity", make(map[string]string))
+	calculated := fmt.Sprintf("%sentity.json?key=%s", apiHost, CLI.APIKey)
+	assert.Equal(t, calculated, generated)
+
+	// Test with query string parameters
+	queryParameters := make(map[string]string)
+	queryParameters["a"] = "1"
+	queryParameters["b"] = "2"
+	queryParameters["c"] = "3"
+
+	queryString := url.Values{}
+	queryString.Add("key", CLI.APIKey)
+	for k, v := range queryParameters {
+		queryString.Add(k, v)
+	}
+	generated = CLI.getRequestURL("entity", queryParameters)
+	calculated = fmt.Sprintf("%sentity.json?%s", apiHost, queryString.Encode())
+	assert.Equal(t, calculated, generated)
+}
+
+func TestGetQueryString(t *testing.T) {
+	queryParameters := make(map[string]string)
+	queryParameters["a"] = "1"
+	queryParameters["b"] = "2"
+	queryParameters["c"] = "3"
+
+	queryString := url.Values{}
+	for k, v := range queryParameters {
+		queryString.Add(k, v)
+	}
+	assert.Equal(t, queryString.Encode(), CLI.getQueryString(queryParameters))
+}
+
 func TestInvalidApiKey(t *testing.T) {
 	cli := New("secret")
 	msg := "You need a valid api key. Sign up for an account on Вони голосують для тебе to get one."
@@ -33,61 +68,45 @@ func TestInvalidApiKey(t *testing.T) {
 }
 
 func TestClient_GetAllPeoples(t *testing.T) {
-	mock := new(GetAllPeoplesResponse)
-	setResponseMock(CLI.getRequestURL("people"), "GetAllPeoplesResponseMock", mock)
+	mock := new([]Person)
+	setResponseMock(CLI.getRequestURL("people", make(map[string]string)), "GetAllPeoplesResponseMock", mock)
 	defer unsetResponseMock()
 
 	// Try get all peoples
 	res, err := CLI.GetAllPeoples()
 	assert.Nil(t, err)
 	assert.NotNil(t, res.Peoples)
-	assert.True(t, len(res.Peoples) > 0)
 
-	for _, dep := range res.Peoples {
-		assert.NotZero(t, dep.ID)
-	}
+	assert.Exactly(t, &GetAllPeoplesResponse{Peoples: *mock}, res)
 }
 
 func TestClient_GetAllPolicies(t *testing.T) {
-	mock := new(GetAllPoliciesResponse)
-	setResponseMock(CLI.getRequestURL("policies"), "GetAllPoliciesResponseMock", mock)
+	mock := new([]Policy)
+	setResponseMock(CLI.getRequestURL("policies", make(map[string]string)), "GetAllPoliciesResponseMock", mock)
 	defer unsetResponseMock()
 
-	// Try get all politics
 	res, err := CLI.GetAllPolicies()
 	assert.Nil(t, err)
 	assert.NotNil(t, res)
-	assert.True(t, len(res.Policies) > 0)
 
-	if len(res.Policies) > 0 {
-		pol := res.Policies[rand.Intn(len(res.Policies))]
-		assert.NotZero(t, pol.ID)
-		assert.NotZero(t, pol.Description)
-		assert.NotZero(t, pol.Name)
-	}
+	assert.Exactly(t, &GetAllPoliciesResponse{Policies: *mock}, res)
 }
 
 func TestClient_GetAllDivisions(t *testing.T) {
-	mock := new(GetAllDivisionsResponse)
-	setResponseMock(CLI.getRequestURL("divisions"), "GetAllDivisionsResponseMock", mock)
+	mock := new([]Division)
+	setResponseMock(CLI.getRequestURL("divisions", make(map[string]string)), "GetAllDivisionsResponseMock", mock)
 	defer unsetResponseMock()
 
-	// Try get all divisions
-	res, err := CLI.GetAllDivisions()
+	res, err := CLI.GetAllDivisions(GetAllDivisionsRequest{})
 	assert.Nil(t, err)
 	assert.NotNil(t, res)
-	assert.True(t, len(res.Divisions) > 0)
 
-	if len(res.Divisions) > 0 {
-		pol := res.Divisions[rand.Intn(len(res.Divisions))]
-		assert.NotZero(t, pol.ID)
-		assert.NotZero(t, pol.Name)
-	}
+	assert.Exactly(t, &GetAllDivisionsResponse{Divisions: *mock}, res)
 }
 
 func TestClient_GetPeopleByID(t *testing.T) {
 	mock := new(GetPeopleByIDResponse)
-	setResponseMock(CLI.getRequestURL("people/0"), "ErrorResponseMock", mock)
+	setResponseMock(CLI.getRequestURL("people/0", make(map[string]string)), "ErrorResponseMock", mock)
 	defer unsetResponseMock()
 
 	// Try invalid ID
@@ -95,7 +114,7 @@ func TestClient_GetPeopleByID(t *testing.T) {
 	assert.NotNil(t, err)
 	assert.Equal(t, "Not Found", err.Message)
 
-	setResponseMock(CLI.getRequestURL("people/386"), "GetPeopleByIdResponseMock", mock)
+	setResponseMock(CLI.getRequestURL("people/386", make(map[string]string)), "GetPeopleByIdResponseMock", mock)
 	defer unsetResponseMock()
 
 	// Get deputy details by API id
@@ -108,7 +127,7 @@ func TestClient_GetPeopleByID(t *testing.T) {
 
 func TestClient_GetPolicyByID(t *testing.T) {
 	mock := new(GetPolicyByIDResponse)
-	setResponseMock(CLI.getRequestURL("policies/0"), "ErrorResponseMock", mock)
+	setResponseMock(CLI.getRequestURL("policies/0", make(map[string]string)), "ErrorResponseMock", mock)
 	defer unsetResponseMock()
 
 	// Try invalid ID
@@ -116,7 +135,7 @@ func TestClient_GetPolicyByID(t *testing.T) {
 	assert.NotNil(t, err)
 	assert.Equal(t, "Not Found", err.Message)
 
-	setResponseMock(CLI.getRequestURL("policies/1"), "GetPeopleByIdResponseMock", mock)
+	setResponseMock(CLI.getRequestURL("policies/1", make(map[string]string)), "GetPeopleByIdResponseMock", mock)
 	defer unsetResponseMock()
 
 	// Get policy details by API id
@@ -129,7 +148,7 @@ func TestClient_GetPolicyByID(t *testing.T) {
 
 func TestClient_GetDivisionByID(t *testing.T) {
 	mock := new(GetDivisionByIDResponse)
-	setResponseMock(CLI.getRequestURL("divisions/0"), "ErrorResponseMock", mock)
+	setResponseMock(CLI.getRequestURL("divisions/0", make(map[string]string)), "ErrorResponseMock", mock)
 	defer unsetResponseMock()
 
 	// Try invalid ID
@@ -137,7 +156,7 @@ func TestClient_GetDivisionByID(t *testing.T) {
 	assert.NotNil(t, err)
 	assert.Equal(t, "Not Found", err.Message)
 
-	setResponseMock(CLI.getRequestURL("divisions/4896"), "GetPeopleByIdResponseMock", mock)
+	setResponseMock(CLI.getRequestURL("divisions/4896", make(map[string]string)), "GetPeopleByIdResponseMock", mock)
 	defer unsetResponseMock()
 
 	// Get policy details by API id
