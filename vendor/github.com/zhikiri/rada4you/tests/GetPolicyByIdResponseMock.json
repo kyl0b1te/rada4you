@@ -1,0 +1,119 @@
+{
+  "description": "policies should be tested (but this can be changed to a real one later).",
+  "id": 1,
+  "name": "testing applications well",
+  "people_comparisons": [
+    {
+      "agreement": "100",
+      "person": {
+        "id": 17946,
+        "latest_member": {
+          "electorate": "обрано в Раду за списком партії",
+          "house": "rada",
+          "id": 564,
+          "name": {
+            "first": "Тетяна",
+            "last": "Чорновол"
+          },
+          "party": "Фракція Політичної партії \"НАРОДНИЙ ФРОНТ\""
+        }
+      },
+      "voted": true
+    },
+    {
+      "agreement": "100",
+      "person": {
+        "id": 18070,
+        "latest_member": {
+          "electorate": "Київська область",
+          "house": "rada",
+          "id": 761,
+          "name": {
+            "first": "Михайло",
+            "last": "Гаврилюк"
+          },
+          "party": "Фракція Політичної партії \"НАРОДНИЙ ФРОНТ\""
+        }
+      },
+      "voted": true
+    },
+    {
+      "agreement": "100",
+      "person": {
+        "id": 18069,
+        "latest_member": {
+          "electorate": "Херсонська область",
+          "house": "rada",
+          "id": 783,
+          "name": {
+            "first": "Іван",
+            "last": "Вінник"
+          },
+          "party": "Фракція ПАРТІЇ \"БЛОК ПЕТРА ПОРОШЕНКА\""
+        }
+      },
+      "voted": true
+    }
+  ],
+  "policy_divisions": [
+    {
+      "division": {
+        "aye_votes": 370,
+        "clock_time": "12:11",
+        "date": "2014-11-27",
+        "edited": true,
+        "house": "rada",
+        "id": 20,
+        "name": "Поіменне голосування  про проект Постанови про Тимчасову президію першої сесії Верховної Ради України восьмого скликання (№1001) - за основу та в цілому",
+        "no_votes": 0,
+        "number": 20,
+        "possible_turnout": 419,
+        "rebellions": 34
+      },
+      "strong": true,
+      "vote": "aye"
+    },
+    {
+      "division": {
+        "aye_votes": 238,
+        "clock_time": "16:30",
+        "date": "2015-11-03",
+        "edited": false,
+        "house": "rada",
+        "id": 4172,
+        "name": "Сигнальне голосування  про проект Закону про внесення змін до деяких законів України щодо посилення гарантії дотримання прав і свобод внутрішньо переміщених осіб (№2166)",
+        "no_votes": 0,
+        "number": 4172,
+        "possible_turnout": 427,
+        "rebellions": 73
+      },
+      "strong": false,
+      "vote": "aye"
+    },
+    {
+      "division": {
+        "aye_votes": 221,
+        "clock_time": "17:14",
+        "date": "2015-05-21",
+        "edited": true,
+        "house": "rada",
+        "id": 2228,
+        "name": "Поіменне голосування  про повернення до розгляду проекту Закону про внесення змін до Бюджетного кодексу України щодо розбудови інституційної спроможності Національного банку України (№2743)",
+        "no_votes": 26,
+        "number": 2228,
+        "possible_turnout": 424,
+        "rebellions": 73
+      },
+      "strong": false,
+      "vote": "aye"
+    },
+    "strong"
+    :
+    false,
+    "vote"
+    :
+    "aye"
+    }
+  ],
+  "provisional": true
+}

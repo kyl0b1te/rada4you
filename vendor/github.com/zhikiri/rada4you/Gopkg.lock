@@ -20,12 +20,6 @@
   version = "v1.2.0"
 
 [[projects]]
-  name = "github.com/zhikiri/rada4you"
-  packages = ["rada4you"]
-  revision = "fd37af857b4e7716da30cf9534f6c5a644da8c3c"
-  version = "v1.1.0"
-
-[[projects]]
   branch = "v1"
   name = "gopkg.in/jarcoal/httpmock.v1"
   packages = ["."]
@@ -34,6 +28,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "2e2828d406f4ad46fb85905d837c47a7a5d52cab3f0971348da7e75a649bf3fd"
+  inputs-digest = "3dee4acb732fe5c1118ff2b667d24f7a42a7d19b79ab2c7d86d319c5438b2ce0"
   solver-name = "gps-cdcl"
   solver-version = 1
