@@ -1,22 +1,15 @@
-# rada4you
+# rada4you [![Build Status](https://travis-ci.org/zhikiri/rada4you.svg?branch=master)](https://travis-ci.org/zhikiri/rada4you)
 
-[![Build Status](https://travis-ci.org/zhikiri/rada4you.svg?branch=master)](https://travis-ci.org/zhikiri/rada4you)
+Ukrainian parliament activity API client build with golang. 
+It was made for telegram bot to monitor votes, deputies stats and parliament activity in general.
 
-It's a GO API client for the [API](https://rada4you.org/help/data).
+We are using API `v1`, documentation should be accessible by [url](https://rada4you.org/help/data).
 
-Currently client is working with last API version, `v1`.
+## Documentation
 
-## TODO
+API client library document contain format of function call with response structure.
 
-Here is the list of next steps:
-
-- [X] complete the tests for "get all" methods
-- [X] add tests for private methods
-- [ ] add docker configuration files
-
-## Available methods
-
-### `Client.GetAllPeoples()`
+#### `Client.GetAllPeoples()`
 
 **Description:** function for retrieve the list of all deputies in system.
 
@@ -30,9 +23,9 @@ type GetAllPeoplesResponse struct {
 
 ---
 
-### `Client.GetPeopleByID(int)`
+#### `Client.GetPeopleByID(int)`
 
-**Description:** function for retrieve deputy detail by system database id.
+**Description:** function for retrieve deputy details by system database id.
 
 Response format:
 
@@ -48,7 +41,7 @@ type GetPeopleByIDResponse struct {
 
 ---
 
-### `Client.GetAllPolicies()`
+#### `Client.GetAllPolicies()`
 
 **Description:** function for retrieve the list of all available policies.
 
@@ -62,7 +55,7 @@ type GetAllPoliciesResponse struct {
 
 ---
 
-### `Client.GetPolicyByID(int)`
+#### `Client.GetPolicyByID(int)`
 
 **Description:** function for retrieve target policy by system database id.
 
@@ -81,7 +74,7 @@ type GetPolicyByIDResponse struct {
 
 ---
 
-### `Client.GetAllDivisions(GetAllDivisionsRequest)`
+#### `Client.GetAllDivisions(GetAllDivisionsRequest)`
 
 **Description:** function for retrieve the list of all available divisions.
 
@@ -93,7 +86,7 @@ type GetAllDivisionsResponse struct {
 
 ---
 
-### `Client.GetDivisionByID(int)`
+#### `Client.GetDivisionByID(int)`
 
 **Description:** function for retrieve target division by system database id.
 
@@ -114,6 +107,16 @@ type GetDivisionByIDResponse struct {
 }
 ```
 
-Any contributions are welcome.
 
-Feel free to create a new issues and PR's
+## TODO
+
+Here is the list of next steps:
+
+- [X] complete the tests for "get all" methods
+- [X] add tests for private methods
+- [ ] add docker configuration files
+- [ ] make a project refactoring
+
+## Summary
+
+Any contributions are welcome.
